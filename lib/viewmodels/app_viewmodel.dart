@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lambo01_master/models/site_model.dart';
+import 'package:lambo01_master/services/app_data_service.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -6,6 +8,28 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class AppViewmodel extends ChangeNotifier {
   WebSocketChannel? channel;
   Exception? connectionError;
+
+  final List<SiteModel> _websites = [];
+  List<SiteModel> get websites => _websites;
+
+  SiteModel? _currentWebsite;
+  SiteModel? get currentWebsite => _currentWebsite;
+  void setCurrentWebsite(SiteModel website) {
+    _currentWebsite = website;
+    notifyListeners();
+  }
+
+  Future<void> loadAppData() async {
+    final appDataService = AppDataService();
+    try {
+      final appData = await appDataService.fetchAppData();
+      _websites.clear();
+      _websites.addAll(appData.sites);
+      notifyListeners();
+    } catch (e, stackTrace) {
+      Logger().e("Failed to load app data", error: e, stackTrace: stackTrace);
+    }
+  }
 
   void loadSettings() async{
     final prefs = await SharedPreferences.getInstance();

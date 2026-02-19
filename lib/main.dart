@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lambo01_master/pages/browser_page.dart';
 import 'package:lambo01_master/pages/home_page.dart';
 import 'package:lambo01_master/pages/settings_page.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
+        '/browser': (context) => const BrowserPage(),
       },
     );
   }

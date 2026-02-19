@@ -1,0 +1,12 @@
+{
+    "version": "1.0",
+    "sites": [
+        {
+            "name": "Lambo01",
+            "url": "https://www.lambo01.com",
+            "openBetScript": "",
+            "placeBetScript": "",
+            "confirmBetScript": ""
+        }
+    ]
+}
