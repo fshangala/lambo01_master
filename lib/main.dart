@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lambo01_master/home.dart';
+import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -7,7 +8,9 @@ void main() {
 
   runApp(
     MultiProvider(
-      providers: [], 
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppViewmodel())
+      ], 
       child: const MyApp()
     )
   );
