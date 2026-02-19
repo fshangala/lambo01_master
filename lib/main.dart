@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lambo01_master/home.dart';
+import 'package:lambo01_master/pages/home_page.dart';
+import 'package:lambo01_master/pages/settings_page.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage(),
       },
     );
   }
