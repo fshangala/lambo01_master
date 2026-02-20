@@ -58,9 +58,17 @@ class AppViewmodel extends ChangeNotifier {
       await channel?.ready;
     } on Exception catch (e, stackTrace) {
       connectionError = e;
+      channel = null;
       notifyListeners();
       Logger().e("Failed to connect to WebSocket", error: e, stackTrace: stackTrace);
     }
+  }
+
+  void disconnectWebSocket() async {
+    await channel?.sink.close();
+    channel = null;
+    connectionError = null;
+    notifyListeners();
   }
   
 }

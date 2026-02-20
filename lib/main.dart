@@ -1,12 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:lambo01_master/pages/browser_page.dart';
 import 'package:lambo01_master/pages/home_page.dart';
 import 'package:lambo01_master/pages/settings_page.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+    final availableVersion = await WebViewEnvironment.getAvailableVersion();
+    assert(availableVersion != null, 'WebView2 is not available on this system.');
+  }
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  }
 
   runApp(
     MultiProvider(
