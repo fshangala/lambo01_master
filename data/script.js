@@ -22,7 +22,7 @@ var LamboScript = {
     },
     clickEventListener: function(e) {
         let clickedEl = this.serializeElement(e.target);
-        window.flutter_inappwebview.callHandler('handlerFoo', clickedEl);
+        window.flutter_inappwebview.callHandler('clicked', clickedEl);
     }
 }
 

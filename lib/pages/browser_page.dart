@@ -71,6 +71,9 @@ class _BrowserPageState extends State<BrowserPage> {
                 pullToRefreshController: pullToRefreshController,
                 onWebViewCreated: (controller) {
                   webViewController = controller;
+                  controller.addJavaScriptHandler(handlerName: "clicked", callback: (data) {
+                    Logger().i("Click handler called", error: data);
+                  });
                 },
                 onLoadStart: (controller, url) {
                   setState(() {
@@ -89,9 +92,6 @@ class _BrowserPageState extends State<BrowserPage> {
                   }
                   setState(() {
                     progress = 1;
-                  });
-                  controller.addJavaScriptHandler(handlerName: "clicked", callback: (el){
-                    Logger().i("Element clicked", error: el);
                   });
                   await controller.injectJavascriptFileFromUrl(urlFile: WebUri("https://raw.githubusercontent.com/fshangala/lambo01_master/refs/heads/main/data/script.js"));
                 },
