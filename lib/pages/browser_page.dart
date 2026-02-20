@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
+import 'package:lambo01_master/widgets/connection_icon_button.dart';
+import 'package:logger/web.dart';
 import 'package:provider/provider.dart';
 
 class BrowserPage extends StatefulWidget {
@@ -55,6 +57,9 @@ class _BrowserPageState extends State<BrowserPage> {
       return Scaffold(
         appBar: AppBar(
           title: Text(appViewmodel.currentWebsite!.name),
+          actions: [
+            ConnectionIconButton()
+          ],
         ),
         body: SafeArea(
           child: Stack(
@@ -85,6 +90,10 @@ class _BrowserPageState extends State<BrowserPage> {
                   setState(() {
                     progress = 1;
                   });
+                  controller.addJavaScriptHandler(handlerName: "clicked", callback: (el){
+                    Logger().i("Element clicked", error: el);
+                  });
+                  await controller.injectJavascriptFileFromUrl(urlFile: WebUri("https://raw.githubusercontent.com/fshangala/lambo01_master/refs/heads/main/data/script.js"));
                 },
                 onReceivedError: (controller, request, error) {
                   if (pullToRefreshController != null) {
