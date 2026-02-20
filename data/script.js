@@ -22,6 +22,7 @@ var LamboScript = {
     },
     clickEventListener: function(e) {
         let clickedEl = this.serializeElement(e.target);
+        console.log("Clicked element path:", clickedEl);
         window.flutter_inappwebview.callHandler('clicked', clickedEl);
     }
 }
