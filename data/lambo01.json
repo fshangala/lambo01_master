@@ -1,12 +1,47 @@
 {
-    "version": "1.0",
-    "sites": [
-        {
-            "name": "Lambo01",
-            "url": "https://www.lambo01.com",
-            "openBetScript": "",
-            "placeBetScript": "",
-            "confirmBetScript": ""
-        }
-    ]
+  "version": "1.0",
+  "sites": [
+    {
+      "name": "jack9",
+      "url": "https://jack9.io",
+      "openBetScript": "document.querySelectorAll(\".odd-button.$backlay-color\")[$betIndex].click();",
+      "placeBetScript": "var input = document.querySelector(\"ion-input.BetPlacing__input\");\ninput.value = $stake;",
+      "confirmBetScript": "document.querySelector(\"button[type='submit']\").click();"
+    },
+    {
+      "name": "lotusbook247.bet",
+      "url": "https://lotusbook247.bet",
+      "openBetScript": "document.querySelectorAll(\".odd-button.$backlay-color\")[$betIndex].click();",
+      "placeBetScript": "var input = document.querySelector(\"ion-input.BetPlacing__input\");\ninput.value = $stake;",
+      "confirmBetScript": "document.querySelector(\"button[type='submit']\").click();"
+    },
+    {
+      "name": "lotusbook247.co",
+      "url": "https://lotusbook247.co",
+      "openBetScript": "document.querySelectorAll(\".odd-button.$backlay-color\")[$betIndex].click();",
+      "placeBetScript": "var input = document.querySelector(\"ion-input.BetPlacing__input\");\ninput.value = $stake;",
+      "confirmBetScript": "document.querySelector(\"button[type='submit']\").click();"
+    },
+    {
+      "name": "lotusbook.io",
+      "url": "https://lotusbook.io",
+      "openBetScript": "var bl = 0; if (backlay == \"back\"){ bl = 2; } document.querySelectorAll(\"bet-panel\")[$betIndex].querySelectorAll(\"bet-button .$backlay\")[bl]",
+      "placeBetScript": "var input = document.querySelector(\"ion-input.BetPlacing__input\");\ninput.value = $stake;",
+      "confirmBetScript": "document.querySelector(\".confirmation-buttons\")[1].click();"
+    },
+    {
+      "name": "laser247.com",
+      "url": "https://laser247.com",
+      "openBetScript": "var bl = 0; if (backlay == \"back\"){ bl = 2; } document.querySelectorAll(\".odds_body\")[$betIndex].querySelectorAll(\"button.$backlay\")[bl].click()",
+      "placeBetScript": "var input = document.querySelectorAll(\"app-bet-slip input\")[2];\nvar inputOdds = document.querySelectorAll(\"app-bet-slip input\")[0];\nvar nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, \"value\").set;\nvar ev1 = new Event('input', { bubbles: true});\nvar ev2 = new Event('change', { bubbles: true});\nnativeInputValueSetter.call(input, '$stake');\ninput.dispatchEvent(ev1);\ninput.dispatchEvent(ev2);\nif ($odds != 0.0) {\nnativeInputValueSetter.call(inputOdds, '$odds');\ninputOdds.dispatchEvent(ev1);\ninputOdds.dispatchEvent(ev2);\n}",
+      "confirmBetScript": "document.querySelector(\"app-bet-slip button.btn-betplace\").click();"
+    },
+    {
+      "name": "betbhai",
+      "url": "https://betbhai.com",
+      "openBetScript": "document.querySelectorAll(\".$backlay-odd.exch-odd-button\")[$betIndex].click();",
+      "placeBetScript": "var input = document.querySelector(\".odds-ctn input\");\nvar inputOdds = document.querySelector(\".stake-ctn input\");\nvar nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, \"value\").set;\nvar ev1 = new Event('input', { bubbles: true});\nvar ev2 = new Event('change', { bubbles: true});\nnativeInputValueSetter.call(input, '$stake');\ninput.dispatchEvent(ev1);\ninput.dispatchEvent(ev2);\nif ($odds != 0.0) {\nnativeInputValueSetter.call(inputOdds, '$odds');\ninputOdds.dispatchEvent(ev1);\ninputOdds.dispatchEvent(ev2);\n}",
+      "confirmBetScript": "document.querySelector(\".place-btn\").click();"
+    }
+  ]
 }

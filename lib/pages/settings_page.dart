@@ -19,9 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            Expanded(
-              child: SettingsForm(),
-            )
+            SettingsForm()
           ],
         ),
       ),
