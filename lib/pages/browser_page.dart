@@ -100,6 +100,7 @@ class _BrowserPageState extends State<BrowserPage> {
                       id: "lambo01_script",
                       onLoad: () {
                         Logger().i("Script injected successfully");
+                        controller.evaluateJavascript(source: "LamboScript.init();");
                       },
                       onError: (error) {
                         Logger().e("Failed to inject script", error: error);
