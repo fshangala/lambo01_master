@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:lambo01_master/models/message_model.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
 import 'package:lambo01_master/widgets/connection_icon_button.dart';
 import 'package:logger/web.dart';
@@ -30,23 +31,38 @@ class _BrowserPageState extends State<BrowserPage> {
   @override
   void initState() {
     super.initState();
+    AppViewmodel appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+
     pullToRefreshController = kDebugMode || ![TargetPlatform.iOS, TargetPlatform.android].contains(defaultTargetPlatform)
-        ? null 
-        : PullToRefreshController(
-          settings: PullToRefreshSettings(
-            color: Colors.blue,
-          ),
-          onRefresh: () async {
-            if (webViewController != null) {
-              if (defaultTargetPlatform == TargetPlatform.android) {
-                webViewController!.reload();
-              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                webViewController!.loadUrl(
-                    urlRequest: URLRequest(url: await webViewController!.getUrl()));
-              }
-            }
-          },
-        );
+    ? null 
+    : PullToRefreshController(
+      settings: PullToRefreshSettings(
+        color: Colors.blue,
+      ),
+      onRefresh: () async {
+        if (webViewController != null) {
+          if (defaultTargetPlatform == TargetPlatform.android) {
+            webViewController!.reload();
+          } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+            webViewController!.loadUrl(
+                urlRequest: URLRequest(url: await webViewController!.getUrl()));
+          }
+        }
+      },
+    );
+    
+    appViewmodel.messageStream?.listen((message) {
+      if (webViewController != null) {
+        Logger().i("Message sent to WebView", error: message);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    webViewController?.dispose();
+    pullToRefreshController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,6 +88,14 @@ class _BrowserPageState extends State<BrowserPage> {
                 onWebViewCreated: (controller) {
                   webViewController = controller;
                   controller.addJavaScriptHandler(handlerName: "clicked", callback: (data) {
+                    appViewmodel.sendMessage(
+                      MessageModel(
+                        eventType: 'mouse', 
+                        event: 'click', 
+                        args: List<String>.from(data), 
+                        kwargs: {}
+                      )
+                    );
                     Logger().i("Click handler called", error: data);
                   });
                 },
@@ -106,9 +130,6 @@ class _BrowserPageState extends State<BrowserPage> {
                   setState(() {
                     this.progress = progress / 100;
                   });
-                },
-                onConsoleMessage: (controller, consoleMessage) {
-                  Logger().d("Console message", error: consoleMessage.message);
                 },
               ),
               progress < 1.0
