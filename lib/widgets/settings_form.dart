@@ -37,6 +37,7 @@ class _SettingsFormState extends State<SettingsForm> {
             final serverAddress = prefs.getString('server_address') ?? '';
             final serverPort = prefs.getString('server_port') ?? '';
             final roomCode = prefs.getString('room_code') ?? '';
+            final role = prefs.getString('role') ?? 'master';
 
             return Column(
               spacing: 16.0,
@@ -98,6 +99,26 @@ class _SettingsFormState extends State<SettingsForm> {
                     }
                   },
                 ),
+                Row(
+                  spacing: 16.0,
+                  children: [
+                    const Text('Role:'),
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        initialValue: role,
+                        items: const [
+                          DropdownMenuItem(value: 'master', child: Text('Master')),
+                          DropdownMenuItem(value: 'slave', child: Text('Slave')),
+                        ],
+                        onChanged: (value) {
+                          if (value != null) {
+                            saveKeyValue('role', value);
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
@@ -106,6 +127,7 @@ class _SettingsFormState extends State<SettingsForm> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Settings saved')),
                       );
+                      Navigator.of(context).pop();
                     }
                   },
                   child: const Text('Save'),

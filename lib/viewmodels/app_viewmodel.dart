@@ -23,6 +23,9 @@ class AppViewmodel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String _role = 'master';
+  String get role => _role;
+
   Future<void> loadAppData() async {
     final appDataService = AppDataService();
     try {
@@ -40,6 +43,10 @@ class AppViewmodel extends ChangeNotifier {
     final serverAddress = prefs.getString('server_address') ?? '';
     final serverPort = prefs.getString('server_port') ?? '';
     final roomCode = prefs.getString('room_code') ?? '';
+    final role = prefs.getString('role') ?? 'master';
+
+    _role = role;
+    notifyListeners();
     
     if(serverAddress.isNotEmpty && serverPort.isNotEmpty && roomCode.isNotEmpty) {
       connectToWebSocket(serverAddress, serverPort, roomCode);
