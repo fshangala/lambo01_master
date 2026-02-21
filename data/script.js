@@ -1,8 +1,8 @@
 var LamboScript = {
-    version: 1.1,
+    version: 1.2,
     init: function() {
-        console.log("LamboScript version", this.version);
-        document.addEventListener('click', this.clickEventListener);
+        console.log("LamboScript version", LamboScript.version);
+        document.addEventListener('click', LamboScript.clickEventListener);
     },
     serializeElement: function(el) {
         if (!(el instanceof Element)) return null;
@@ -25,7 +25,7 @@ var LamboScript = {
         return path.join(' > ');
     },
     clickEventListener: function(e) {
-        let clickedEl = this.serializeElement(e.target);
+        let clickedEl = LamboScript.serializeElement(e.target);
         console.log("Clicked element path:", clickedEl);
         window.flutter_inappwebview.callHandler('clicked', clickedEl);
     }
