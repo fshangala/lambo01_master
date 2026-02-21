@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lambo01_master/models/app_data_model.dart';
+import 'package:lambo01_master/models/message_model.dart';
 import 'package:lambo01_master/models/site_model.dart';
 import 'package:lambo01_master/services/app_data_service.dart';
 import 'package:logger/logger.dart';
@@ -53,10 +56,13 @@ class AppViewmodel extends ChangeNotifier {
       channel!.sink.close();
     }
 
-    channel = WebSocketChannel.connect(Uri.parse(url));
+    final newChannel = WebSocketChannel.connect(Uri.parse(url));
     
     try {
-      await channel?.ready;
+      await newChannel.ready;
+      channel = newChannel;
+      notifyListeners();
+
     } on Exception catch (e, stackTrace) {
       connectionError = e;
       channel = null;
@@ -65,11 +71,40 @@ class AppViewmodel extends ChangeNotifier {
     }
   }
 
+  Stream<MessageModel>? get messageStream {
+    if (channel != null) {
+      return channel!.stream.map((message) {
+        try {
+          final data = jsonDecode(message);
+          return MessageModel.fromJson(data);
+        } on Exception catch (e, stackTrace) {
+          Logger().e("Failed to parse WebSocket message", error: e, stackTrace: stackTrace);
+          return null;
+        }
+      }).where((message) => message != null).cast<MessageModel>();
+    }
+    return null;
+  }
+
   void disconnectWebSocket() async {
     await channel?.sink.close();
     channel = null;
     connectionError = null;
     notifyListeners();
+  }
+
+  void sendMessage(MessageModel message) {
+    if (channel != null) {
+      try {
+        final data = message.toMap();
+        channel!.sink.add(jsonEncode(data));
+        Logger().i("WebSocket message sent", error: message);
+      } on Exception catch (e, stackTrace) {
+        Logger().e("Failed to send WebSocket message", error: e, stackTrace: stackTrace);
+      }
+    } else {
+      Logger().w("WebSocket is not connected. Message not sent.", error: message);
+    }
   }
   
 }
