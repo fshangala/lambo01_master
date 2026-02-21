@@ -4,6 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:lambo01_master/pages/browser_page.dart';
 import 'package:lambo01_master/pages/home_page.dart';
 import 'package:lambo01_master/pages/settings_page.dart';
+import 'package:lambo01_master/pages/slave_browser_page.dart';
+import 'package:lambo01_master/pages/slave_home_page.dart';
 import 'package:lambo01_master/viewmodels/app_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -35,17 +37,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final appViewmodel = Provider.of<AppViewmodel>(context, listen: true);
+
+    final routes = {
+      '/': (context) => appViewmodel.role == 'master' ? const HomePage() : const SlaveHomePage(),
+      '/settings': (context) => const SettingsPage(),
+      '/browser': (context) => appViewmodel.role == 'master' ? const BrowserPage() : const SlaveBrowserPage(),
+    };
+    
     return MaterialApp(
-      title: 'Lambo01 Master',
+      title: 'Lambo01 ${appViewmodel.role}',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage(),
-        '/browser': (context) => const BrowserPage(),
-      },
+      routes: routes,
     );
   }
 }
