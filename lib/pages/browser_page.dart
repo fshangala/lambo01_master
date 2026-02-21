@@ -93,20 +93,8 @@ class _BrowserPageState extends State<BrowserPage> {
                   setState(() {
                     progress = 1;
                   });
-                  await controller.injectJavascriptFileFromUrl(
-                    urlFile: WebUri("https://cdn.jsdelivr.net/gh/fshangala/lambo01_master/data/script.js"),
-                    scriptHtmlTagAttributes: ScriptHtmlTagAttributes(
-                      type: "text/javascript",
-                      id: "lambo01_script",
-                      onLoad: () {
-                        Logger().i("Script injected successfully");
-                        controller.evaluateJavascript(source: "LamboScript.init();");
-                      },
-                      onError: (error) {
-                        Logger().e("Failed to inject script", error: error);
-                      },
-                    )
-                  );
+                  await controller.evaluateJavascript(source: appViewmodel.appData!.scriptSource);
+                  await controller.evaluateJavascript(source: "LamboScript.init();");
                   Logger().i("Page loaded: $url");
                 },
                 onReceivedError: (controller, request, error) {

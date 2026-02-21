@@ -43,13 +43,13 @@ class _HomePageState extends State<HomePage> {
             await appViewmodel.loadAppData();
           },
           child: ListView.builder(
-            itemCount: appViewmodel.websites.length,
+            itemCount: appViewmodel.appData?.sites.length ?? 0,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(appViewmodel.websites[index].name),
-                subtitle: Text(appViewmodel.websites[index].url),
+                title: Text(appViewmodel.appData!.sites[index].name),
+                subtitle: Text(appViewmodel.appData!.sites[index].url),
                 onTap: () {
-                  appViewmodel.setCurrentWebsite( appViewmodel.websites[index] );
+                  appViewmodel.setCurrentWebsite( appViewmodel.appData!.sites[index] );
                   Navigator.pushNamed(context, '/browser');
                 },
               );
