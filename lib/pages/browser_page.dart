@@ -93,7 +93,20 @@ class _BrowserPageState extends State<BrowserPage> {
                   setState(() {
                     progress = 1;
                   });
-                  await controller.injectJavascriptFileFromUrl(urlFile: WebUri("https://raw.githubusercontent.com/fshangala/lambo01_master/refs/heads/main/data/script.js"));
+                  await controller.injectJavascriptFileFromUrl(
+                    urlFile: WebUri("https://cdn.jsdelivr.net/gh/fshangala/lambo01_master/data/script.js"),
+                    scriptHtmlTagAttributes: ScriptHtmlTagAttributes(
+                      type: "text/javascript",
+                      id: "lambo01_script",
+                      onLoad: () {
+                        Logger().i("Script injected successfully");
+                      },
+                      onError: (error) {
+                        Logger().e("Failed to inject script", error: error);
+                      },
+                    )
+                  );
+                  Logger().i("Page loaded: $url");
                 },
                 onReceivedError: (controller, request, error) {
                   if (pullToRefreshController != null) {
@@ -106,9 +119,7 @@ class _BrowserPageState extends State<BrowserPage> {
                   });
                 },
                 onConsoleMessage: (controller, consoleMessage) {
-                  if (kDebugMode) {
-                    print(consoleMessage.message);
-                  }
+                  Logger().d("Console message", error: consoleMessage.message);
                 },
               ),
               progress < 1.0

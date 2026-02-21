@@ -1,5 +1,5 @@
 var LamboScript = {
-    version: 1.0,
+    version: 1.1,
     serializeElement: function(el) {
         if (!(el instanceof Element)) return null;
         
@@ -27,6 +27,5 @@ var LamboScript = {
     }
 }
 
-window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-    document.addEventListener('click', LamboScript.clickEventListener);
-});
+console.log("LamboScript version", LamboScript.version);
+document.addEventListener('click', LamboScript.clickEventListener);
