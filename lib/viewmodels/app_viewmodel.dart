@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lambo01_master/models/app_data_model.dart';
 import 'package:lambo01_master/models/site_model.dart';
 import 'package:lambo01_master/services/app_data_service.dart';
 import 'package:logger/logger.dart';
@@ -9,8 +10,8 @@ class AppViewmodel extends ChangeNotifier {
   WebSocketChannel? channel;
   Exception? connectionError;
 
-  final List<SiteModel> _websites = [];
-  List<SiteModel> get websites => _websites;
+  AppDataModel? _appData;
+  AppDataModel? get appData => _appData;
 
   SiteModel? _currentWebsite;
   SiteModel? get currentWebsite => _currentWebsite;
@@ -23,8 +24,8 @@ class AppViewmodel extends ChangeNotifier {
     final appDataService = AppDataService();
     try {
       final appData = await appDataService.fetchAppData();
-      _websites.clear();
-      _websites.addAll(appData.sites);
+      Logger().d("script source loaded", error: appData.scriptSource);
+      _appData = appData;
       notifyListeners();
     } catch (e, stackTrace) {
       Logger().e("Failed to load app data", error: e, stackTrace: stackTrace);
